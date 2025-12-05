@@ -1,1 +1,54 @@
 
+class Solution:
+    def romanToInt(self, s: str) -> int:
+        count = 0
+        i = 0
+
+        while i < len(s):
+            if i + 1 < len(s):
+                pair = s[i] + s[i + 1]
+
+                if pair == "IV":
+                    count += 4
+                    i += 2
+                    continue
+                elif pair == "IX":
+                    count += 9
+                    i += 2
+                    continue
+                elif pair == "XL":
+                    count += 40
+                    i += 2
+                    continue
+                elif pair == "XC":
+                    count += 90
+                    i += 2
+                    continue
+                elif pair == "CD":
+                    count += 400
+                    i += 2
+                    continue
+                elif pair == "CM":
+                    count += 900
+                    i += 2
+                    continue
+
+            # Single symbol cases
+            if s[i] == "I":
+                count += 1
+            elif s[i] == "V":
+                count += 5
+            elif s[i] == "X":
+                count += 10
+            elif s[i] == "L":
+                count += 50
+            elif s[i] == "C":
+                count += 100
+            elif s[i] == "D":
+                count += 500
+            elif s[i] == "M":
+                count += 1000
+
+            i += 1
+
+        return count
