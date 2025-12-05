@@ -1,0 +1,7 @@
+class Solution:
+    def countCollisions(self, directions: str) -> int:
+        # Remove cars that will never collide
+        directions = directions.lstrip('L').rstrip('R')
+        
+        # All remaining moving cars will collide
+        return sum(1 for c in directions if c != 'S')
