@@ -1,0 +1,11 @@
+class Solution:
+    def countPartitions(self, nums: List[int]) -> int:
+        total = sum(nums)
+        n = len(nums)
+        # If total sum is even, all n-1 partitions are valid
+        if total % 2 == 0:
+            return n - 1
+        # Otherwise, no partition has even difference
+        return 0
+
+        
