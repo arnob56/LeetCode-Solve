@@ -1,0 +1,7 @@
+class Solution:
+    def merge(self, nums1, m, nums2, n):
+        # Replace the zeros with nums2 elements
+        nums1[m:] = nums2
+        
+        # Sort the full list
+        nums1.sort()
