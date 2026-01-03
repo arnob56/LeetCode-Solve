@@ -1,0 +1,22 @@
+# Write your MySQL query statement below
+WITH user_stats AS (
+    SELECT
+        user_id,
+        COUNT(*) AS prompt_count,
+        ROUND(AVG(tokens), 2) AS avg_tokens
+    FROM prompts
+    GROUP BY user_id
+    HAVING COUNT(*) >= 3
+)
+SELECT
+    u.user_id,
+    u.prompt_count,
+    u.avg_tokens
+FROM user_stats u
+WHERE EXISTS (
+    SELECT 1
+    FROM prompts p
+    WHERE p.user_id = u.user_id
+      AND p.tokens > u.avg_tokens
+)
+ORDER BY u.avg_tokens DESC, u.user_id ASC;
