@@ -1,0 +1,22 @@
+class Solution:
+    def maxProduct(self, root: Optional[TreeNode]) -> int:
+        MOD = 10**9 + 7
+        subtree_sums = []
+
+        # Step 1: find total sum of tree
+        def total_sum(node):
+            if not node:
+                return 0
+            s = node.val + total_sum(node.left) + total_sum(node.right)
+            subtree_sums.append(s)
+            return s
+
+        total = total_sum(root)
+
+        # Step 2: find maximum product by splitting
+        max_product = 0
+        for s in subtree_sums:
+            max_product = max(max_product, s * (total - s))
+
+        return max_product % MOD
+        
