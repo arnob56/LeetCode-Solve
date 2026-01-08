@@ -1,0 +1,3 @@
+Select teacher_id, Count(subject_id) as cnt
+From Teacher
+Group by teacher_id
