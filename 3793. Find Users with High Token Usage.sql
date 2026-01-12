@@ -1,4 +1,3 @@
-# Write your MySQL query statement below
 WITH user_stats AS (
     SELECT
         user_id,
