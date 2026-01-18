@@ -1,0 +1,39 @@
+class Solution:
+    def largestMagicSquare(self, grid):
+        m, n = len(grid), len(grid[0])
+
+        # Prefix sums
+        rowPref = [[0] * (n + 1) for _ in range(m)]
+        colPref = [[0] * n for _ in range(m + 1)]
+
+        for i in range(m):
+            for j in range(n):
+                rowPref[i][j + 1] = rowPref[i][j] + grid[i][j]
+                colPref[i + 1][j] = colPref[i][j] + grid[i][j]
+
+        # Try sizes from largest to smallest
+        for k in range(min(m, n), 1, -1):
+            for i in range(m - k + 1):
+                for j in range(n - k + 1):
+                    target = sum(grid[i + d][j + d] for d in range(k))
+                    if sum(grid[i + d][j + k - 1 - d] for d in range(k)) != target:
+                        continue
+
+                    valid = True
+
+                    # Check rows
+                    for r in range(i, i + k):
+                        if rowPref[r][j + k] - rowPref[r][j] != target:
+                            valid = False
+                            break
+
+                    # Check columns
+                    for c in range(j, j + k):
+                        if colPref[i + k][c] - colPref[i][c] != target:
+                            valid = False
+                            break
+
+                    if valid:
+                        return k
+
+        return 1
