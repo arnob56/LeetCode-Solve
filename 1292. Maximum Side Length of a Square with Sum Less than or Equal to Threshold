@@ -1,0 +1,42 @@
+class Solution:
+    def maxSideLength(self, mat, threshold):
+        m, n = len(mat), len(mat[0])
+
+        # Build prefix sum
+        pref = [[0] * (n + 1) for _ in range(m + 1)]
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                pref[i][j] = (
+                    mat[i - 1][j - 1]
+                    + pref[i - 1][j]
+                    + pref[i][j - 1]
+                    - pref[i - 1][j - 1]
+                )
+
+        # Check if square of side length k exists
+        def isValid(k):
+            for i in range(k, m + 1):
+                for j in range(k, n + 1):
+                    square_sum = (
+                        pref[i][j]
+                        - pref[i - k][j]
+                        - pref[i][j - k]
+                        + pref[i - k][j - k]
+                    )
+                    if square_sum <= threshold:
+                        return True
+            return False
+
+        # Binary search
+        left, right = 0, min(m, n)
+        ans = 0
+
+        while left <= right:
+            mid = (left + right) // 2
+            if isValid(mid):
+                ans = mid
+                left = mid + 1
+            else:
+                right = mid - 1
+
+        return ans
