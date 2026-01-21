@@ -3,12 +3,16 @@ class Solution:
         ans = []
 
         for n in nums:
-            # even numbers can never be formed
-            if n % 2 == 0:
-                ans.append(-1)
-            else:
-                # lowest set bit
-                lsb = n & -n
-                ans.append(n - lsb)
+            best = -1
+
+            for k in range(31):
+                if n & (1 << k):
+                    x = n - (1 << k)
+                    if x >= 0 and (x | (x + 1)) == n:
+                        if best == -1 or x < best:
+                            best = x
+
+            ans.append(best)
 
         return ans
+
